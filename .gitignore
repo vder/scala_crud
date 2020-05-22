@@ -6,3 +6,7 @@
 **/.vscode
 **/project
 **/target
+**/.history
+/.metals
+/.bloop
+**/.bloop

@@ -1,7 +1,7 @@
 name := "doobiecrud"
 version := "0.0.1-SNAPSHOT"
 
-scalaVersion := "2.13.1"
+scalaVersion := "2.13.2"
 lazy val doobieVersion = "0.8.8"
 val Http4sVersion = "0.21.3"
 val CirceVersion = "0.13.0"
