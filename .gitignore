@@ -1,3 +1,6 @@
-.bloop/*
-.metals/*
-.vscode/*
+**/.bloop/*
+**/.metals/*
+**/.vscode/*
+**/.bloop
+**/.metals
+*//.vscode
