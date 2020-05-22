@@ -3,4 +3,5 @@
 **/.vscode/*
 **/.bloop
 **/.metals
-*//.vscode
+**/.vscode
+**/project
