@@ -13,6 +13,8 @@ import cats.Monad
 import cats.effect.Sync
 import cats.Functor
 import cats.implicits._
+import io.circe._
+import io.circe.syntax._
 
 trait UserController[F[_]] {
   def getRoutes: F[HttpRoutes[F]]
@@ -41,9 +43,19 @@ class LiveUserController[F[_]: Applicative: Defer: Monad: Sync: Functor](
         case DELETE -> Root / "user" / id =>
           Ok(deleteUser(id.toInt))
         case req @ POST -> Root / "user" =>
-          req.decode[User] { usr => Ok(insertUser(usr)) }
+          req.decode[Json] { json =>
+            json.as[User] match {
+              case Right(usr) => Ok(insertUser(usr))
+              case _          => BadRequest()
+            }
+          }
         case req @ PUT -> Root / "user" =>
-          req.decode[User] { usr => Ok(updateUser(usr)) }
+          req.decode[Json] { json =>
+            json.as[User] match {
+              case Right(user) => Ok(updateUser(user))
+              case _           => BadRequest()
+            }
+          }
       }
     }
   }
@@ -56,7 +68,7 @@ class LiveUserController[F[_]: Applicative: Defer: Monad: Sync: Functor](
 
   override def getUser(userId: Int): F[Response[F]] =
     dbRepo.getUser(userId).flatMap {
-      case Some(x) => Ok(x)
+      case Some(x) => Ok(x.asJson)
       case None    => NotFound()
     }
 
